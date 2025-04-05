@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>音乐作品展示</title>
+    <style>
+        body {
+            background: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 唱片容器 */
+        .vinyl-container {
+            width: 420px;
+            height: 420px;
+            position: relative;
+            margin: 50px 0;
+            perspective: 1000px;
+        }
+
+        /* 正方形唱片台 */
+        .square-platform {
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            position: absolute;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            transform: rotateX(10deg);
+        }
+
+        /* 旋转唱片 */
+        .vinyl {
+            width: 80%;
+            height: 80%;
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            border-radius: 50%;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            animation: rotate 3s linear infinite;
+            box-shadow: 
+                0 0 25px rgba(0,0,0,0.8),
+                inset 5px 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        /* 悬停效果 */
+        .vinyl-container:hover .vinyl {
+            transform: translateZ(20px) scale(1.05);
+        }
+
+        /* 控制按钮样式 */
+        audio {
+            margin-top: 30px;
+            width: 300px;
+        }
+
+        /* 旋转动画 */
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 暂停状态 */
+        .paused {
+            animation-play-state: paused !important;
+        }
+
+        h1 {
+            color: #ecf0f1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>我的音乐作品</h1>
+    
+    <div class="vinyl-container">
+        <div class="square-platform"></div>
+        <div class="vinyl" id="vinyl"></div>
+    </div>
+
+    <audio controls id="player" src="song1.mp3"></audio>
+
+    <script>
+        const player = document.getElementById('player');
+        const vinyl = document.getElementById('vinyl');
+
+        player.addEventListener('play', () => {
+            vinyl.classList.remove('paused');
+            vinyl.style.animationPlayState = 'running';
+        });
+
+        player.addEventListener('pause', () => {
+            vinyl.classList.add('paused');
+            vinyl.style.animationPlayState = 'paused';
+        });
+
+        // 初始化状态
+        vinyl.classList.add('paused');
+    </script>
+</body>
+</html>
